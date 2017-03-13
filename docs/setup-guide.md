@@ -116,7 +116,8 @@ Running the following from a node with Kubernetes administrative access and
 from any application:
 
 ```
-$ export HEKETI_CLI_SERVER=http://<address to heketi service>
+$ export HEKETI_CLI_SERVER=$(kubectl get svc/heketi --template 'http://{{.spec.clusterIP}}:{{(index .spec.ports 0).port}}')
+
 $ heketi-cli volume create --size=100 \
   --persistent-volume \
   --persistent-volume-endpoint=heketi-storage-endpoints | kubectl create -f -
